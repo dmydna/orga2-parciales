@@ -1,0 +1,44 @@
+== Ejercicio 1a ==
+
+Cliente 1: 7
+Cliente 2: 0
+Cliente 3: -16778208
+Cliente 4: 31
+Cliente 5: 263
+Cliente 6: 0
+Cliente 7: 2
+Cliente 8: 0
+Cliente 9: -16778158
+Cliente 10: 31
+Cliente 1: 8
+Cliente 2: 0
+Cliente 3: -16778158
+Cliente 4: 31
+Cliente 5: 4
+Cliente 6: 0
+Cliente 7: 4
+Cliente 8: 0
+Cliente 9: -16778178
+Cliente 10: 31
+Cliente 1: 11
+Cliente 2: 0
+Cliente 3: -16778198
+Cliente 4: 31
+Cliente 5: 4
+Cliente 6: 0
+Cliente 7: 1
+Cliente 8: 0
+Cliente 9: -16778188
+Cliente 10: 31
+Cliente 1: 4
+Cliente 2: 0
+Cliente 3: -16778188
+Cliente 4: 31
+Cliente 5: 9
+Cliente 6: 0
+Cliente 7: 2
+Cliente 8: 0
+Cliente 9: -16778208
+Cliente 10: 31
+== Ejercicio 1b ==
+

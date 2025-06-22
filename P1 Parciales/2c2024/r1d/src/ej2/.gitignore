@@ -1,0 +1,8 @@
+test_c
+test_asm
+expected/*
+!expected/.gitkeep
+outputs/*
+!outputs/.gitkeep
+img/*
+!img/.gitkeep

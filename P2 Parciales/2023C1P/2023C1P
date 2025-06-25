@@ -1,0 +1,52 @@
+TAREA_N  => resultado:
+	1.TAREA_N queda pausada 
+   2.TAREA_6 procesa resultado 
+	3.TAREA_N es reanudad una vez finaliza TAREA_6.
+
+
+
+
+// idt 
+
+IDENTRY3(99) // procesar_resultado
+
+
+// isr.asm
+
+_isr99:
+	pushad
+	
+	call procesar_resultado
+	
+	popad
+	iret
+
+
+void procesar_resultado(){
+	sched_disable_task(currrent_task)
+	TASK_6_PRIORITY = true
+}
+
+
+
+bool task_6_finalizo(){
+	// la tarea 6 cuando finaliza guarda en rax un resultado
+	 uint8_t  res = *(tss_task[6].esp + offset_rax)
+	sched_task_enable(task)
+	return  res != null
+}
+
+// sched
+
+
+uint16_t sched_next_task(void) {
+
+  if(TASK_6_PRIORITY && !task_6_finalizo() ){
+		return GTD_IDX_TASK_6 << 3
+	}
+}
+
+
+
+
+

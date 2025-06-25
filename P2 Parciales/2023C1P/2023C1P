@@ -1,50 +1,84 @@
-TAREA_N  => resultado:
-	1.TAREA_N queda pausada 
-   2.TAREA_6 procesa resultado 
-	3.TAREA_N es reanudad una vez finaliza TAREA_6.
 
+// defino variable global
 
-
+bool tareas_en_espera[MAX_TASK] 
 
 // idt 
 
 IDENTRY3(99) // procesar_resultado
 
-
 // isr.asm
 
-_isr99:
+_isr99: 
 	pushad
-	
-	call procesar_resultado
-	
+
+	mov eax, dword [esp + offset_rax]
+	call task_procesar_init
+
+ ; cambia a la tarea procesadora
+	mov word [sched_task_selector], ax
+  jmp far [sched_task_offset]
+
 	popad
 	iret
 
 
-void procesar_resultado(){
-	sched_disable_task(currrent_task)
-	TASK_6_PRIORITY = true
+_isr32:
+    pushad
+    ; 1. Le decimos al PIC que vamos a atender la interrupción
+    call pic_finish1
+    call next_clock
+		 ; si es la tarea procesar:
+		 mov eax, DWORD [procesar_task_id]
+		 cmp eax, DWORD [curent_task]
+		 jne .pasar
+		 ; tarea procesar guarda en rax 1 si termino
+		 mov ax,[esp + rax_offset]
+		 cmp ax,1 
+		 jne .pasar
+		 ;finaliza procesar
+		 call procesar_task_finish
+		  
+      pasar:
+    ; 2. Realizamos el cambio de tareas en caso de ser necesario
+    call sched_next_task
+    cmp ax, 0
+    je .fin
+
+    str bx
+    cmp ax, bx
+    je .fin
+
+    mov word [sched_task_selector], ax
+    jmp far [sched_task_offset]
+
+    .fin:
+    ; 3. Actualizamos las estructuras compartidas ante el tick del reloj
+    call tasks_tick
+    ; 4. Actualizamos la "interfaz" del sistema en pantalla
+    call tasks_screen_update
+    popad
+    iret
+
+
+// tasks.c
+
+void task_procesar_init(uint8_t valor){
+	sched_enable_task(procesar_task_id)
+	sched_disable_task(current_task)
+  // procesa los valores
+	return
 }
 
-
-
-bool task_6_finalizo(){
-	// la tarea 6 cuando finaliza guarda en rax un resultado
-	 uint8_t  res = *(tss_task[6].esp + offset_rax)
-	sched_task_enable(task)
-	return  res != null
-}
-
-// sched
-
-
-uint16_t sched_next_task(void) {
-
-  if(TASK_6_PRIORITY && !task_6_finalizo() ){
-		return GTD_IDX_TASK_6 << 3
+void task_procesar_finish(){
+	sched disable_task(procesar_task_id)
+	for(int i=0; i<MAX_TASK; i++){
+			if(await_tasks[i]){
+					sched_task_enable(i)
+			}
 	}
 }
+
 
 
 

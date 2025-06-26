@@ -65,3 +65,12 @@ uint16_t sched_next_task(void) {
 }
 
 
+// auxiliares
+
+uint8_t es_prioritaria(uint8_t idx) {
+	tss_t* tss_task = obtener_TSS(sched_tasks[i].selector);
+	uint32_t* pila = tss_task->esp;
+	uint32_t edx = pila[5];
+	return edx == 0x00FAFAFA;
+}
+

@@ -1,4 +1,5 @@
 ; Definiciones comunes
+; Definiciones comunes
 TRUE  EQU 1
 FALSE EQU 0
 
@@ -20,21 +21,21 @@ extern strcmp
 
 ;########### ESTOS SON LOS OFFSETS Y TAMAÑO DE LOS STRUCTS
 ; Completar las definiciones (serán revisadas por ABI enforcer):
-carta.en_juego EQU NO_COMPLETADO
-carta.nombre   EQU NO_COMPLETADO
-carta.vida     EQU NO_COMPLETADO
-carta.jugador  EQU NO_COMPLETADO
-carta.SIZE     EQU NO_COMPLETADO
+carta.en_juego EQU 0
+carta.nombre   EQU 13
+carta.vida     EQU 14
+carta.jugador  EQU 16
+carta.SIZE     EQU 18
 
-tablero.mano_jugador_rojo EQU NO_COMPLETADO
-tablero.mano_jugador_azul EQU NO_COMPLETADO
-tablero.campo             EQU NO_COMPLETADO
-tablero.SIZE              EQU NO_COMPLETADO
+tablero.mano_jugador_rojo EQU 0
+tablero.mano_jugador_azul EQU 8
+tablero.campo             EQU 16
+tablero.SIZE              EQU 24
 
-accion.invocar   EQU NO_COMPLETADO
-accion.destino   EQU NO_COMPLETADO
-accion.siguiente EQU NO_COMPLETADO
-accion.SIZE      EQU NO_COMPLETADO
+accion.invocar   EQU 0
+accion.destino   EQU 8
+accion.siguiente EQU 16
+accion.SIZE      EQU 24
 
 ; Variables globales de sólo lectura
 section .rodata
@@ -80,9 +81,49 @@ hay_accion_que_toque:
 	; ubicación según la convención de llamada. Prestá atención a qué
 	; valores son de 64 bits y qué valores son de 32 bits o 8 bits.
 	;
-	; r/m64 = accion_t*  accion
-	; r/m64 = char*      nombre
+	; rdi/m64 = accion_t*  accion
+	; rsi/m64 = char*      nombre
+
+	push rbp
+	mov rbp, rsp
+
+	push r12
+	push r13
+	push r14
+	push r15
+
+
+	mov r14, rdi ; accion
+	mov r15, rsi ; nombre
+
+	.while:
+	mov rdi, [r14 + accion.siguiente]
+	cmp rdi, 0
+	je .end
+
+	mov  rdi, [r14 + accion.nombre]
+	mov  rsi, r15 
+	call strcmp
+	cmp rax, 0
+
+	jne .continue
+
+	mov rax, 1
+	jmp .end
+
+	.continue:
+	add r14, accion.SIZE
+	jmp .while
+	
+	.end:
 	xor rax, rax
+
+	push r15
+	push r14
+	push r13
+	push r12
+	pop rbp
+
 	ret
 
 ; Invoca las acciones que fueron encoladas en la secuencia proporcionada en el
@@ -116,6 +157,60 @@ invocar_acciones:
 	;
 	; r/m64 = accion_t*  accion
 	; r/m64 = tablero_t* tablero
+	push rbp
+	mov rbp, rsp
+
+
+	push r12
+	push r13
+	push r14
+	push r15
+
+
+	mov r14, rdi ; accion
+	mov r15, rsi ; tablero
+
+
+
+	.while:
+
+	; Bases :: 
+	; R14 -> ACCION
+	; R13 -> CARTA
+	; R15 -> TABLERO
+
+	mov rdi, [r14 + accion.siguiente]
+	cmp rdi, 0
+	je .end
+
+
+	mov r13, [r14 +  accion.destino]
+	cmp r12, [r13 +  carta.en_juego]
+	jne .continue
+
+	mov rcx, [r14 + accion.invocar]
+
+	mov rdi, r15
+	mov rsi, r13
+
+	call rcx
+
+	cmp [r13 + carta.vida], 0
+	jne .continue
+	
+	mov [r13 + carta.en_juego], 0
+
+	.continue:
+	add r14, accion.SIZE
+
+	.end:
+
+	push r15
+	push r14
+	push r13
+	push r12
+
+	pop rbp
 	ret
 
 ; Cuenta la cantidad de cartas rojas y azules en el tablero.
@@ -143,7 +238,54 @@ contar_cartas:
 	; ubicación según la convención de llamada. Prestá atención a qué
 	; valores son de 64 bits y qué valores son de 32 bits o 8 bits.
 	;
-	; r/m64 = tablero_t* tablero
-	; r/m64 = uint32_t*  cant_rojas
-	; r/m64 = uint32_t*  cant_azules
+	; rdi/m64 = tablero_t* tablero
+	; rsi/m64 = uint32_t*  cant_rojas
+	; rdx/m64 = uint32_t*  cant_azules
+
+	push rbp
+	mov rbp, rsp
+
+	push r12
+	push r13
+	push r14
+	push r15
+
+	mov r12, rdi
+	mov r13, rsi
+	mov r14, rdx
+
+	xor rbx, rbx
+
+	.while:
+
+	; RDI -> TABLERO
+	mov rdi, [r12 + rbx * 8]
+	; RCX -> CARTA
+	mov rcx, [rdi + tablero.campo]
+
+	cmp rcx, 0
+	je .continue
+
+	mov r8, [rcx + carta.jugador]
+	cmp r8, JUGADOR_AZUL
+	jne .rojo
+
+	inc rsi
+	jmp .continue
+
+	.rojo:
+	inc rdx
+
+	.continue:
+	inc rbx
+	cmp rbx, ANCHO*ALTO
+	jl .while
+
+	.end:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+
+	pop rsp
 	ret

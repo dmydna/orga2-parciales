@@ -22,7 +22,7 @@ extern strcmp
 ;########### ESTOS SON LOS OFFSETS Y TAMAÑO DE LOS STRUCTS
 ; Completar las definiciones (serán revisadas por ABI enforcer):
 carta.en_juego EQU 0
-carta.nombre   EQU 13
+carta.nombre   EQU 1    ; Warning!: Nombre es array[12], no es un puntero, para leerlo uso 'lea' no 'mov'
 carta.vida     EQU 14
 carta.jugador  EQU 16
 carta.SIZE     EQU 18
@@ -30,7 +30,7 @@ carta.SIZE     EQU 18
 tablero.mano_jugador_rojo EQU 0
 tablero.mano_jugador_azul EQU 8
 tablero.campo             EQU 16
-tablero.SIZE              EQU 24
+tablero.SIZE              EQU (16 + tablero.ANCHO*tablero.ALTO*8) ; Warning!: la matriz no es un puntero si un array hard-codeado.
 
 accion.invocar   EQU 0
 accion.destino   EQU 8
@@ -45,21 +45,21 @@ section .rodata
 ; Funciones a implementar:
 ;   - hay_accion_que_toque
 global EJERCICIO_1_HECHO
-EJERCICIO_1_HECHO: db FALSE
+EJERCICIO_1_HECHO: db TRUE
 
 ; Marca el ejercicio 2 como hecho (`true`) o pendiente (`false`).
 ;
 ; Funciones a implementar:
 ;   - invocar_acciones
 global EJERCICIO_2_HECHO
-EJERCICIO_2_HECHO: db FALSE
+EJERCICIO_2_HECHO: db TRUE
 
 ; Marca el ejercicio 3 como hecho (`true`) o pendiente (`false`).
 ;
 ; Funciones a implementar:
 ;   - contar_cartas
 global EJERCICIO_3_HECHO
-EJERCICIO_3_HECHO: db FALSE
+EJERCICIO_3_HECHO: db TRUE
 
 section .text
 
@@ -92,36 +92,40 @@ hay_accion_que_toque:
 	push r14
 	push r15
 
-
 	mov r14, rdi ; accion
 	mov r15, rsi ; nombre
 
 	.while:
-	mov rdi, [r14 + accion.siguiente]
-	cmp rdi, 0
+	cmp r14, 0
 	je .end
 
-	mov  rdi, [r14 + accion.nombre]
-	mov  rsi, r15 
+	; R14 -> Accion
+	; R13 -> Carta
+
+	mov  r13, [r14 + accion.destino]
+
+	lea  rdi, [r13 + carta.nombre]
+	mov  rsi, r15
 	call strcmp
 	cmp rax, 0
-
 	jne .continue
 
 	mov rax, 1
-	jmp .end
+	jmp .exit
 
 	.continue:
-	add r14, accion.SIZE
+	mov r14, [r14 + accion.siguiente]
 	jmp .while
 	
 	.end:
 	xor rax, rax
 
-	push r15
-	push r14
-	push r13
-	push r12
+	.exit:
+	pop r15
+	pop r14
+	pop r13
+	pop r12
+
 	pop rbp
 
 	ret
@@ -174,18 +178,15 @@ invocar_acciones:
 
 	.while:
 
-	; Bases :: 
 	; R14 -> ACCION
 	; R13 -> CARTA
 	; R15 -> TABLERO
 
-	mov rdi, [r14 + accion.siguiente]
-	cmp rdi, 0
+	cmp r14, 0
 	je .end
 
-
 	mov r13, [r14 +  accion.destino]
-	cmp r12, [r13 +  carta.en_juego]
+	cmp [r13 +  carta.en_juego], byte 1
 	jne .continue
 
 	mov rcx, [r14 + accion.invocar]
@@ -195,24 +196,24 @@ invocar_acciones:
 
 	call rcx
 
-	cmp [r13 + carta.vida], 0
+	cmp [r13 + carta.vida], word 0
 	jne .continue
 	
-	mov [r13 + carta.en_juego], 0
+	mov [r13 + carta.en_juego], word 0
 
 	.continue:
-	add r14, accion.SIZE
-
+	mov r14, [r14 + accion.siguiente]
+	jmp .while
+	
 	.end:
-
-	push r15
-	push r14
-	push r13
-	push r12
+	pop r15
+	pop r14
+	pop r13
+	pop r12
 
 	pop rbp
-	ret
 
+	ret
 ; Cuenta la cantidad de cartas rojas y azules en el tablero.
 ;
 ; Dado un tablero revisa el campo de juego y cuenta la cantidad de cartas
@@ -245,47 +246,46 @@ contar_cartas:
 	push rbp
 	mov rbp, rsp
 
-	push r12
-	push r13
-	push r14
-	push r15
+	mov dword [rsi], 0
+	mov dword [rdx], 0
 
-	mov r12, rdi
-	mov r13, rsi
-	mov r14, rdx
+	.isNull:
+	cmp rdi, 0
+	je .end
 
 	xor rbx, rbx
+	lea r10, [rdi + tablero.campo]
+
+	; RDI -> TABLERO
+	; R10 -> *(TABLERO->CAMPO)
+	; R11 -> CARTA
+	; RBX -> indice
 
 	.while:
 
-	; RDI -> TABLERO
-	mov rdi, [r12 + rbx * 8]
-	; RCX -> CARTA
-	mov rcx, [rdi + tablero.campo]
-
-	cmp rcx, 0
+	mov r11, [r10 + rbx * 8]
+	cmp r11, 0
 	je .continue
 
-	mov r8, [rcx + carta.jugador]
-	cmp r8, JUGADOR_AZUL
-	jne .rojo
+	mov r8b, byte [r11 + carta.jugador]
+	cmp r8b, JUGADOR_ROJO
+	jne .otro_color
 
-	inc rsi
+	add dword [rsi], 1
 	jmp .continue
 
-	.rojo:
-	inc rdx
+	.otro_color:
+	cmp r8b, JUGADOR_AZUL
+	jne .continue
+
+	add dword [rdx], 1
 
 	.continue:
 	inc rbx
-	cmp rbx, ANCHO*ALTO
-	jl .while
+	cmp rbx, tablero.ANCHO*tablero.ALTO
+	jne .while
 
 	.end:
-	pop r15
-	pop r14
-	pop r13
-	pop r12
 
-	pop rsp
+	pop rbp
 	ret

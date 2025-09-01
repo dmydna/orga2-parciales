@@ -21,20 +21,20 @@ extern strcmp
 ;########### ESTOS SON LOS OFFSETS Y TAMAÑO DE LOS STRUCTS
 ; Completar las definiciones (serán revisadas por ABI enforcer):
 carta.en_juego EQU 0
-carta.nombre   EQU 13
-carta.vida     EQU 14
-carta.jugador  EQU 16
-carta.SIZE     EQU 18
+carta.nombre   EQU 0
+carta.vida     EQU 0
+carta.jugador  EQU 0
+carta.SIZE     EQU 0
 
 tablero.mano_jugador_rojo EQU 0
-tablero.mano_jugador_azul EQU 8
-tablero.campo             EQU 16
-tablero.SIZE              EQU 24
+tablero.mano_jugador_azul EQU 0
+tablero.campo             EQU 0
+tablero.SIZE              EQU 0
 
 accion.invocar   EQU 0
-accion.destino   EQU 8
-accion.siguiente EQU 16
-accion.SIZE      EQU 24
+accion.destino   EQU 0
+accion.siguiente EQU 0
+accion.SIZE      EQU 0
 
 ; Variables globales de sólo lectura
 section .rodata

@@ -18,36 +18,36 @@
 
 ---
 
-[enun01]: /enun/2022C1PR.pdf
-[enun02]: /enun/2022C1PT1.pdf
-[enun03]: /enun/2022C1R.pdf
-[enun04]: /enun/2022C2PT1.pdf
-[enun05]: /enun/2022C2PT2.pdf
-[enun06]: /enun/2022C2R.pdf
-[enun07]: /enun/2023C1P.pdf
-[enun08]: /enun/2023C1R.pdf
-[enun09]: /enun/2023C2P.pdf
-[enun10]: /enun/2023C2R.pdf
-[enun11]: /enun/2024C1P2.pdf
-[enun12]: /enun/2024C1R2.pdf
+[enun01]: /P2%20Parciales/enun/2022C1PR.pdf
+[enun02]: /P2%20Parciales/enun/2022C1PT1.pdf
+[enun03]: /P2%20Parciales/enun/2022C1R.pdf
+[enun04]: /P2%20Parciales/enun/2022C2PT1.pdf
+[enun05]: /P2%20Parciales/enun/2022C2PT2.pdf
+[enun06]: /P2%20Parciales/enun/2022C2R.pdf
+[enun07]: /P2%20Parciales/enun/2023C1P.pdf
+[enun08]: /P2%20Parciales/enun/2023C1R.pdf
+[enun09]: /P2%20Parciales/enun/2023C2P.pdf
+[enun10]: /P2%20Parciales/enun/2023C2R.pdf
+[enun11]: /P2%20Parciales/enun/2024C1P2.pdf
+[enun12]: /P2%20Parciales/enun/2024C1R2.pdf
 
-[sol01]: /sol/2022C1PR
-[sol02]: /sol/2022C1PT1
-[sol03]: /sol/2022C1R
-[sol04]: /sol/2022C2PT1
-[sol05]: /sol/2022C2PT2
-[sol06]: /sol/2022C2R
-[sol07]: /sol/2023C1P
-[sol08]: /sol/2023C1R
-[sol09]: /sol/2023C2P
-[sol10]: /sol/2023C2R
-[sol11]: /sol/2024C1P2
-[sol12]: /sol/2024C1R2
+[sol01]: /P2%20Parciales/sol/2022C1PR
+[sol02]: /P2%20Parciales/sol/2022C1PT1
+[sol03]: /P2%20Parciales/sol/2022C1R
+[sol04]: /P2%20Parciales/sol/2022C2PT1
+[sol05]: /P2%20Parciales/sol/2022C2PT2
+[sol06]: /P2%20Parciales/sol/2022C2R
+[sol07]: /P2%20Parciales/sol/2023C1P
+[sol08]: /P2%20Parciales/sol/2023C1R
+[sol09]: /P2%20Parciales/sol/2023C2P
+[sol10]: /P2%20Parciales/sol/2023C2R
+[sol11]: /P2%20Parciales/sol/2024C1P2
+[sol12]: /P2%20Parciales/sol/2024C1R2
 
 
-[clase01]: /enun/2022C1PR.pdf
-[clase02]: /enun/2022C1PT1.pdf
-[clase03]: /enun/2022C1R.pdf
-[clase04]: /enun/2022C2PT1.pdf
-[clase05]: /enun/2022C2PT2.pdf
-[clase06]: /enun/2022C2R.pdf
+[clase01]: /P2%20Parciales/enun/2022C1PR.pdf
+[clase02]: /P2%20Parciales/enun/2022C1PT1.pdf
+[clase03]: /P2%20Parciales/enun/2022C1R.pdf
+[clase04]: /P2%20Parciales/enun/2022C2PT1.pdf
+[clase05]: /P2%20Parciales/enun/2022C2PT2.pdf
+[clase06]: /P2%20Parciales/enun/2022C2R.pdf

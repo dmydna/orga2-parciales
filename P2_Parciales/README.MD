@@ -13,8 +13,8 @@
 | 10    | Recu | 2°C 2023          |         |[Enunciado][enun10] \| [Solucion][sol10] | [clase01]|
 | 11    |      | 2°C 2024          |         |[Enunciado][enun11] \| [Solucion][sol11] | [clase01]|
 | 12    | Recu | 2°C 2024          |         |[Enunciado][enun12] \| [Solucion][sol12] |  |
-| 13    |      | 1°C 2025          | Malloco |[Enunciado][enun12] \| [Solucion][sol12] |  |
-| 13    | Recu | 1°C 2025          | Parejas |[Enunciado][enun12] \| [Solucion][sol12] |  |
+| 13    |      | 1°C 2025          | Malloco |[Enunciado][enun13] \| [Solucion][sol13] |  |
+| 13    | Recu | 1°C 2025          | Parejas |[Enunciado][enun14] \| [Solucion][sol14] |  |
 
 ---
 
@@ -30,6 +30,10 @@
 [enun10]: /P2_Parciales/enun/2023C2R.pdf
 [enun11]: /P2_Parciales/enun/2024C1P2.pdf
 [enun12]: /P2_Parciales/enun/2024C1R2.pdf
+[enun13]: /P2_Parciales/enun/parcial_malloco.md
+[enun14]: /P2_Parciales/enun/parcial_parejas.md
+[enun15]: /P2_Parciales/enun/parcial_cartucho.md
+
 
 [sol01]: /P2_Parciales/sol/2022C1PR
 [sol02]: /P2_Parciales/sol/2022C1PT1
@@ -43,6 +47,10 @@
 [sol10]: /P2_Parciales/sol/2023C2R
 [sol11]: /P2_Parciales/sol/2024C1P2
 [sol12]: /P2_Parciales/sol/2024C1R2
+[sol13]: /P2_Parciales/sol/2025c1/parcial_malloco_solucion.md
+[sol14]: /P2_Parciales/sol/2025c1/parcial_parejas_solucion.md
+[sol15]: /P2_Parciales/sol/2025c1/parcial_cartucho_solucion.md
+
 
 
 [clase01]: /P2_Parciales/enun/2022C1PR.pdf
@@ -51,3 +59,4 @@
 [clase04]: /P2_Parciales/enun/2022C2PT1.pdf
 [clase05]: /P2_Parciales/enun/2022C2PT2.pdf
 [clase06]: /P2_Parciales/enun/2022C2R.pdf
+

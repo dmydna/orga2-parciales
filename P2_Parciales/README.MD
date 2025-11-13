@@ -1,20 +1,21 @@
 ## 2° Parciales
 
-| n°    | tipo | detalles          | titulo  | Enunciado / Solucion                     |Practica|
-| ----- |------|-------------------| ------- |---------------------------------------- | ------ |
-| 01    |      | 1°C 2022 - TEMA 1 |         |[Enunciado][enun01] \| [Solucion][sol01] | [clase01]|
-| 02    |      | 1°C 2022 - TEMA 1 |         |[Enunciado][enun02] \| [Solucion][sol02] | [clase01]|
-| 03    | Recu | 1°C 2022          |         |[Enunciado][enun03] \| [Solucion][sol03] | [clase01]|
-| 04    |      | 2°C 2022 - TEMA 1 |         |[Enunciado][enun04] \| [Solucion][sol04] | [clase01]|
-| 05    |      | 2°C 2022 - TEMA 2 |         |[Enunciado][enun05] \| [Solucion][sol05] | [clase01]|
-| 06    |      | 1°C 2023          |         |[Enunciado][enun06] \| [Solucion][sol06] | [clase01]|
-| 08    |      | 1°C 2023          |         |[Enunciado][enun08] \| [Solucion][sol08] | [clase01]|
-| 09    | Recu | 1°C 2023          |         |[Enunciado][enun09] \| [Solucion][sol09] | [clase01]|
-| 10    | Recu | 2°C 2023          |         |[Enunciado][enun10] \| [Solucion][sol10] | [clase01]|
-| 11    |      | 2°C 2024          |         |[Enunciado][enun11] \| [Solucion][sol11] | [clase01]|
-| 12    | Recu | 2°C 2024          |         |[Enunciado][enun12] \| [Solucion][sol12] |  |
-| 13    |      | 1°C 2025          | Malloco |[Enunciado][enun13] \| [Solucion][sol13] |  |
-| 13    | Recu | 1°C 2025          | Parejas |[Enunciado][enun14] \| [Solucion][sol14] |  |
+| n°    | tipo | detalles          | titulo      | Enunciado / Solucion                     |Practica|
+| ----- |------|-------------------| ----------- |---------------------------------------- | ------ |
+| 01    |      | 1°C 2022 - TEMA 1 |             |[enunciado][enun01] \| [solucion][sol01] | [clase01]|
+| 02    |      | 1°C 2022 - TEMA 1 |             |[enunciado][enun02] \| [solucion][sol02] | [clase01]|
+| 03    | Recu | 1°C 2022          |             |[enunciado][enun03] \| [solucion][sol03] | [clase01]|
+| 04    |      | 2°C 2022 - TEMA 1 |             |[enunciado][enun04] \| [solucion][sol04] | [clase01]|
+| 05    |      | 2°C 2022 - TEMA 2 |             |[enunciado][enun05] \| [solucion][sol05] | [clase01]|
+| 06    |      | 1°C 2023          |             |[enunciado][enun06] \| [solucion][sol06] | [clase01]|
+| 08    |      | 1°C 2023          |             |[enunciado][enun08] \| [solucion][sol08] | [clase01]|
+| 09    | Recu | 1°C 2023          |             |[enunciado][enun09] \| [solucion][sol09] | [clase01]|
+| 10    | Recu | 2°C 2023          |             |[enunciado][enun10] \| [solucion][sol10] | [clase01]|
+| 11    |      | 2°C 2024          | Tarea Espia |[enunciado][enun11] \| [solucion][sol11] | [clase01]|
+| 12    | Recu | 2°C 2024          |             |[enunciado][enun12] \| [solucion][sol12] |  |
+| 13    |      | 1°C 2025          | Malloco     |[enunciado][enun13] \| [solucion][sol13] |  |
+| 14    | Recu | 1°C 2025          | Parejas     |[enunciado][enun14] \| [solucion][sol14] |  |
+| 15    |      | ?°C 202?          | Cartucho    |[enunciado][enun15] \| [solucion][sol15] |  |
 
 ---
 
@@ -45,7 +46,7 @@
 [sol08]: /P2_Parciales/sol/2023C1R
 [sol09]: /P2_Parciales/sol/2023C2P
 [sol10]: /P2_Parciales/sol/2023C2R
-[sol11]: /P2_Parciales/sol/2024C1P2
+[sol11]: /P2_Parciales/sol/2024C1P2/parcial_tarea_espia.md
 [sol12]: /P2_Parciales/sol/2024C1R2
 [sol13]: /P2_Parciales/sol/2025c1/parcial_malloco_solucion.md
 [sol14]: /P2_Parciales/sol/2025c1/parcial_parejas_solucion.md

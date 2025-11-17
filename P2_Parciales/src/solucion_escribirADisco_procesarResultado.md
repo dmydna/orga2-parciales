@@ -155,10 +155,10 @@ Entonces tengo que recorrer toda su `PD` y buscar entre las pagina que fueron ac
 void Escribir_a_Disco(uint32_t CR3, paddr_t phy){
     pd_entry_t* pd = (pd_entry_t*)CR3_TO_PAGE_DIR(CR3);
     pt_entry_t* pt;
-     if (!(pd[pd_index].attrs & MMU_P)){
-        continue;
-     }
     for(int=0; pd_index<1024; pd_index++){
+            if (!(pd[pd_index].attrs & MMU_P)){
+               continue;
+            }
             pt = (pt_entry_t*)MMU_ENTRY_PADDR(pd[pd_index].pt)
             for(int pt_index = 0; pt_indec < 1024; pt_indec++){
                if ((pt[pt_index].attrs & MMU_P) && (pt[pt_index].attrs & (MMU_D | MMU_A))){

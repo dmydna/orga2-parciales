@@ -40,21 +40,6 @@ Para integrar malloco y chau para poder pedir memoria en nivel de usuario:
 3. En `mmu.c`: Hay que modificar el `page_fault_hander` para ir reservando las paginas pedidas por malloco (cuando son accedidas)
 
 
-#### Ejercicio 2:
-
-Para integrar el garbage_collector:
-
-0. En `mmu.c`: creamos la PD para la tarea en el espacio del kernel.
-1. En `tss.c`: creamos la tss para la tarea.
-2. En `task.c`: Hay que agrega el selector de la tarea en la gdt.
-3. En `sched.c`: definimos un contador de tick. 
-3. En `isr.asm`: Hay que modificar la rutina de interrupcion del clock `isr32` <BR> para que llame a la tarea del garbage_collector cada 100 ticks del clock 
-
-
-## Implementaciones
-
-
-###### (Ejercicio 1)
 
 `idt.c`:
 ```c
@@ -130,12 +115,18 @@ _isr14:
 ~~~
 
 
+## Ejercicio 2:
 
+Para integrar el garbage_collector:
 
+0. En `mmu.c`: creamos la PD para la tarea en el espacio del kernel.
+1. En `tss.c`: creamos la tss para la tarea.
+2. En `task.c`: Hay que agrega el selector de la tarea en la gdt.
+3. En `sched.c`: definimos un contador de tick. 
+3. En `isr.asm`: Hay que modificar la rutina de interrupcion del clock `isr32` <BR> para que llame a la tarea del garbage_collector cada 100 ticks del clock 
 
 
 ### Garbage_collector 
-###### (Ejercicio 2)
 
 `isr.asm`:
 
@@ -255,9 +246,6 @@ void garbage_collector(void) {
 
 ```
 
-
-
-
 `sched.c`
 
 - Agrego contador de ticks
@@ -276,10 +264,9 @@ uint8_t inc_tick_counter() {
 }
 ```
 
+## Ejercicio 3
 
-
-### Malloco 
-###### (Ejercicio 3)
+#### Malloco 
 
 `mmu.c`:
 
@@ -320,8 +307,7 @@ void* malloco(size_t size){
 
 ```
 
-### Chau
-###### (Ejercicio 3)
+#### Chau
 
 `mmu.c`
 
@@ -346,7 +332,7 @@ void chau(virtaddr_t virt){
 ```
 
 
-### Pagefaul (modificacion )
+#### Pagefaul (modificacion )
 
 `mmu.c`
 

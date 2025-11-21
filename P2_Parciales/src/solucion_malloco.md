@@ -28,10 +28,8 @@
 - Se va a encargar desmapear las paginas que fueron marcada para liberar por chau, 
 - Solo se va a liberar memoria cada 100 tick del clock en otro caso no hace nada.
 - El contador de ticks es un contador global, no cuenta los ticks de cada tarea.
-
+ 
 ---
-
-
 
 #### Ejercicio 1: 
 
@@ -44,13 +42,13 @@ Para integrar malloco y chau para poder pedir memoria en nivel de usuario:
 
 #### Ejercicio 2:
 
-Para integrar el garbaje_collector:
+Para integrar el garbage_collector:
 
 0. En `mmu.c`: creamos la PD para la tarea en el espacio del kernel.
 1. En `tss.c`: creamos la tss para la tarea.
 2. En `task.c`: Hay que agrega el selector de la tarea en la gdt.
 3. En `sched.c`: definimos un contador de tick. 
-3. En `isr.asm`: Hay que modificar la rutina de interrupcion del clock `isr32` <BR> para que llame a la tarea del garbaje_collector cada 100 ticks del clock 
+3. En `isr.asm`: Hay que modificar la rutina de interrupcion del clock `isr32` <BR> para que llame a la tarea del garbage_collector cada 100 ticks del clock 
 
 
 ## Implementaciones
@@ -59,16 +57,12 @@ Para integrar el garbaje_collector:
 ###### (Ejercicio 1)
 
 `idt.c`:
-
-Defino las entries de la IDT de nivel de usuario para llamar a las syscalls de malloco y chau.
-
 ```c
 void idt_init() {
-  // ....
-
-  // Syscalls
-  IDT_ENTRY3(99); // Malloco
-  IDT_ENTRY3(100); // Chau
+  // Malloco
+  IDT_ENTRY3(99); 
+  // Chau
+  IDT_ENTRY3(100); 
 }
 ```
 
@@ -114,11 +108,11 @@ _isr14:
     je .malloc_exception
 
     malloc_exception:
-    // mata tarea actual
+    ; mata tarea actual
     mov eax, [current_task]
     push eax
     call sched_killed_task
-    // salta a la prox tarea de forma inmediata
+    ; salta a la prox tarea de forma inmediata
     call sched_next_task
     mov word [sched_task_selector], ax
     mov esp, 4
@@ -133,7 +127,6 @@ _isr14:
 	popad
 	add esp, 4 ; Pisar error code
 	iret
-
 ~~~
 
 
@@ -239,7 +232,7 @@ static int8_t create_garbage_task() {
 
 extern tss_tasks
 
-void garballe_collector(void) {
+void garbage_collector(void) {
 
    while(true){
     if (ticks_counter <= 100) continue;
@@ -292,10 +285,9 @@ uint8_t inc_tick_counter() {
 
 ```c
 void* malloco(size_t size){
-  if(size > PAGESIZE * 1024){
+  if(size > PAGE_SIZE * 1024){
     return null;
   }
-
   reservas_por_tarea* malloco_reservas = dameReservas(int task_id);
   uint32_t reservas_tarea       = malloco_reservas->array_reservas;
   uint32_t reservas_tarea_size  = malloco_reservas->reservas_size;
@@ -318,7 +310,7 @@ void* malloco(size_t size){
     // busco una entry disponible 
     if( reservas_tarea[i].estado; == 0 )
     { 
-      reservas_tarea[i].virt    = malloco_virt_start + cantMemoriaReservada * PAGESIZE;
+      reservas_tarea[i].virt    = malloco_virt_start + cantMemoriaReservada * PAGE_SIZE;
       reservas_tarea[i].tamanio = size;
       reservas_tarea[i].estado  = 1;
     }
@@ -344,7 +336,7 @@ void chau(virtaddr_t virt){
     uint32_t  reserva_virt_start = reservas_tarea[i].virt;
     uint8_t   reserva_estado     = reservas_tarea[i].estado;
     if(reserva_estado == 1 && virt == reserva_virt_start){ 
-    // solo marca para liberar, garballe_collector va a liberar (desmapear)
+    // solo marca para liberar, garbage_collector va a liberar (desmapear)
      reserva_actual.estado = 3;
      return true;
     }

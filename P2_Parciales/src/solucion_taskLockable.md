@@ -5,6 +5,9 @@
 Cada tarea puede solicitar usar el area de LOCKABLE, si obtiene acceso a la misma continuara ejecutando. Si no lo obtiene, entonces debera esperar a que el AREA LOCKABLE sea liberada por alguna otra tarea que tiene accesso a la misma.
 La tarea que queda esperando el accesso no puede retomar su ejecucion a modo usuario hasta que obtenga el acceso. Por lo que cada vez que esta tarea vuelva a ejecutarse lo hara desde la syscall que llamo para solicitar el acceso. De otro modo, se provocaria un page faul al intentar acceder a un area de memoria que no tiene acceso. 
 
+Notar que cuando la tarea solicita el accesso al area de memoria LOCKABLE, se ejecuta una interrupcion. 
+Entonces la tarea queda esperando "bloqueada" sin poder salir de dicha rutina de interrupcion. 
+Una vez obtenido el lock la tarea podra salir de la rutina y volver al modo usuario.
 
 ## Ejercicio 1.
 
@@ -149,7 +152,7 @@ void release(vaddr_t shared_page){
 
 ## Ejercicio 2.
 
-ejercicio a. 
+__Ejercicio a.__
 
 Para que se pueda leer el area `LOCKABLE` sin tener el lock y sin tener que llamar a la syscall y si es que esta libre:
 
@@ -179,16 +182,16 @@ bool page_fault_handler(vaddr_t virt) {
 }
 ```
 
-ejercicio b. 
+__Ejercicio b.__
 
-Para lograr que las tareas obtengan un accesso legitimo al lock sin la syscall get_lock: 
+Para lograr que las tareas obtengan un accesso legitimo al lock sin la `syscall get_lock`:
 
-Debemos mover el codigo de la syscall (get_lock), al handler del page faul (en mmu.c), justo donde se checkea el acceso a area de LOCKEABLE. (ejercicio 2 a).<BR>
-En caso que el area LOCKABLE no este libre, el handler de page_fault (en mmu.c) 
-debera retornar un valor especifico (ej: `404`).
+Debemos mover el codigo de la syscall (`get_lock`), al handler del page faul (en __mmu.c__), justo donde se checkea el acceso a area de `LOCKEABLE`. (ejercicio 2 a).<BR>
+En caso que el area LOCKABLE no este libre, el handler de `page_fault` (en mmu.c)
+debera retornar un valor especifico (ej. `254`).
 
-En la isr14 en isr.asm, debemos envolver el llamado al handler del page_faul en un loop, que chequee si el handler devolvio el valor especifico, de esta manera la tarea solicitante quedara bloqueada en la rutina del page fault hasta obtener el lock, cuando lo haga el handler del page fault (en mmu.c) devolvera un valor distinto a `404` (0 o 1), permitiendo salor del loop y retomar el modo usuario a la tarea solicitante.
-`
+En la __isr14__ en `isr.asm`, debemos envolver el llamado al __handler__ del `page_faul` en un loop, que chequee si el handler devolvio el valor especifico, de esta manera la tarea solicitante quedara __bloqueada__ en la rutina (__isr14__) del page fault hasta obtener el __lock__, cuando lo haga el handler del page_fault (en mmu.c) devolvera un valor distinto a `0 o 1` (ej. 254) , permitiendo salir del loop y retomar el modo usuario a la tarea solicitante.
+
 
 Para Poder quitar el lock a una tarea despues de 5 desalojos:
 

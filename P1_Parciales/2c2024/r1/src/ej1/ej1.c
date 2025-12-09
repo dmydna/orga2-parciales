@@ -107,7 +107,7 @@ void modificarUnidad(mapa_t mapa, uint8_t x, uint8_t y, void (*fun_modificar)(at
     bool estaOptimizada = unidad_actual ->references > 1;
 
     if(estaOptimizada){
-        attackunit_t* nuevaUnidad = (attackunit_t*) mallo(sizeof(attackunit_t));
+        attackunit_t* nuevaUnidad = (attackunit_t*) malloc(sizeof(attackunit_t));
         unidad_actual->references --;
 
         // copia todos los campos a la nueva estructura

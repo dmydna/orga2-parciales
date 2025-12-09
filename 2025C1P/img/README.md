@@ -1,1 +1,0 @@
-Imágenes para los parciales
